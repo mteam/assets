@@ -1,0 +1,11 @@
+{
+  "name": "assets",
+  "repo": "mteam/assets",
+  "version": "0.1.0",
+  "scripts": [
+    "index.js",
+    "asset.js",
+    "audio.js",
+    "image.js"
+  ]
+}
