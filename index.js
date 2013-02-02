@@ -12,7 +12,7 @@ Loader.prototype.get = function(base) {
 
   var exts = Array.prototype.slice.call(arguments, 1);
 
-  if (assets[base] == null) {
+  if (this.assets[base] == null) {
     var asset = new Asset(base, exts);
     this.assets[base] = asset;
     this.queue.push(asset);
