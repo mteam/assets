@@ -2,6 +2,9 @@
   "name": "assets",
   "repo": "mteam/assets",
   "version": "0.1.0",
+  "dependencies": {
+    "component/bind": "*"
+  },
   "scripts": [
     "index.js",
     "asset.js",

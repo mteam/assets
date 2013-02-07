@@ -1,10 +1,12 @@
+var bind = require('bind');
+
 function Asset(base, exts) {
   this.base = base;
   this.exts = exts;
   this.loaded = false;
   this.content = null;
   this.loader = this.getLoader();
-  this.trigger = this.trigger.bind(this);
+  this.trigger = bind(this, this.trigger);
 }
 
 Asset.loaders = {
