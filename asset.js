@@ -5,8 +5,6 @@ function Asset(base, exts) {
   this.exts = exts;
   this.loaded = false;
   this.content = null;
-  this.loader = this.getLoader();
-  this.trigger = bind(this, this.trigger);
 }
 
 Asset.loaders = {
@@ -65,9 +63,10 @@ Asset.prototype.getLoader = function() {
 };
 
 Asset.prototype.load = function(done) {
-  var self = this;
+  var self = this,
+      load = this.getLoader();
 
-  this.loader(this, function(result) {
+  load(this, function(result) {
     self.loaded = true;
     self.content = result;
 
