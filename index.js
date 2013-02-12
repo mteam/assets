@@ -1,19 +1,19 @@
-var Asset = require('./asset');
+var Batch = require('batch');
+    Asset = require('./asset');
 
 function Loader() {
   this.reset();
 }
 
-module.exports = Loader;
-
 Loader.prototype.get = function(base) {
-  if (base == null)
+  if (base == null) {
     throw new Error('url is not specified');
-
-  var exts = Array.prototype.slice.call(arguments, 1);
+  }
 
   if (this.assets[base] == null) {
-    var asset = new Asset(base, exts);
+    var exts = [].slice.call(arguments, 1),
+        asset = new Asset(base, exts);
+
     this.assets[base] = asset;
     this.queue.push(asset);
   }
@@ -26,28 +26,24 @@ Loader.prototype.add = function() {
 };
 
 Loader.prototype.load = function(done) {
-  var queue = this.queue;
+  var batch = new Batch;
 
-  if (queue.length == 0) {
-    done();
-    return;
-  }
-
-  var count = 0;
-  function loaded() {
-    if (++count === queue.length) {
-      queue.length = 0;
-      done();
-    }
-  }
-
-  queue.forEach(function(asset) {
-    asset.onLoad = loaded;
-    asset.load();
+  this.queue.forEach(function(asset) {
+    batch.push(function(done) {
+      asset.load(done);
+    });
   });
+
+  if (done != null) {
+    batch.end(done);
+  } else {
+    return batch;
+  }
 };
 
 Loader.prototype.reset = function() {
   this.assets = {};
   this.queue = [];
 };
+
+module.exports = Loader;

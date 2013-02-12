@@ -20,7 +20,7 @@ Asset.extensions = {
 
   mp3: 'audio',
   ogg: 'audio'
-}
+};
 
 Asset.prototype.getUrl = function() {
   return this.base + (this.exts[0] ? this.exts[0] : '');
@@ -42,11 +42,9 @@ Asset.prototype.isLoaded = function() {
   return this.loaded;
 };
 
-var EXT_RE = /\.(\w+)$/;
-
 Asset.prototype.getExtension = function() {
   var url = this.getUrl(),
-      result = EXT_RE.exec(url);
+      result = /\.(\w+)$/.exec(url);
 
   if (result) {
     return result[1];
@@ -66,18 +64,15 @@ Asset.prototype.getLoader = function() {
   }
 };
 
-Asset.prototype.load = function() {
-  this.loader(this, this.trigger);
+Asset.prototype.load = function(done) {
+  var self = this;
+
+  this.loader(this, function(result) {
+    self.loaded = true;
+    self.content = result;
+
+    done();
+  });
 };
-
-Asset.prototype.trigger = function(result) {
-  if (this.loaded) return;
-
-  this.loaded = true;
-  this.content = result;
-  this.onLoad();
-};
-
-Asset.prototype.onLoad = function() {};
 
 module.exports = Asset;

@@ -3,7 +3,8 @@
   "repo": "mteam/assets",
   "version": "0.1.0",
   "dependencies": {
-    "component/bind": "*"
+    "component/bind": "*",
+    "component/batch": "*"
   },
   "scripts": [
     "index.js",
