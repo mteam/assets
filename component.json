@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "dependencies": {
     "component/bind": "*",
-    "component/batch": "*"
+    "visionmedia/batch": "*"
   },
   "scripts": [
     "index.js",
