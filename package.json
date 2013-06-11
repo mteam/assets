@@ -1,8 +1,0 @@
-{
-  "name": "assets",
-  "version": "0.1.0",
-  "private": true,
-  "devDependencies": {
-    "bind": "git://github.com/component/bind"    
-  }
-}

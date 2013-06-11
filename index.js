@@ -1,49 +1,46 @@
-var Batch = require('batch');
-    Asset = require('./asset');
+var Batch = require('batch'),
+    loadImage = require('./loaders/image.js'),
+    loadAudio = require('./loaders/audio.js');
 
 function Loader() {
-  this.reset();
-}
-
-Loader.prototype.get = function(base) {
-  if (base == null) {
-    throw new Error('url is not specified');
-  }
-
-  if (this.assets[base] == null) {
-    var exts = [].slice.call(arguments, 1),
-        asset = new Asset(base, exts);
-
-    this.assets[base] = asset;
-    this.queue.push(asset);
-  }
-
-  return this.assets[base];
-};
-
-Loader.prototype.add = function() {
-  this.get.apply(this, arguments);
-};
-
-Loader.prototype.load = function(done) {
-  var batch = new Batch;
-
-  this.queue.forEach(function(asset) {
-    batch.push(function(done) {
-      asset.load(done);
-    });
-  });
-
-  if (done != null) {
-    batch.end(done);
-  } else {
-    return batch;
-  }
-};
-
-Loader.prototype.reset = function() {
   this.assets = {};
   this.queue = [];
+}
+
+Loader.prototype = {
+
+  image: function(url) {
+    if (this.assets[url]) return this.assets[url];
+
+    var image = loadImage(url);
+    this.queue.push(image.load);
+    this.assets[url] = image.asset;
+
+    return image.asset;
+  },
+
+  audio: function(url, exts) {
+    var key = url + exts;
+    if (this.assets[key]) return this.assets[key];
+
+    var audio = loadAudio(url, exts.split(' '));
+    this.queue.push(audio.load);
+    this.assets[key] = audio.asset;
+
+    return audio.asset;
+  },
+
+  load: function(cb) {
+    var batch = new Batch();
+
+    for (var i = 0, len = this.queue.length; i < len; i++) {
+      batch.push(this.queue.shift());
+    }
+
+    if (cb) batch.end(cb);
+    else return batch;
+  }
+
 };
 
 module.exports = Loader;

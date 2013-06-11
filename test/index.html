@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+  <title>Assets loading test</title>
+  <link rel="stylesheet" href="../build/build.css">
+</head>
+<body>
+  <div id="mocha"></div>
+  
+  <script src="../build/build.js"></script>
+  <script>
+    require('mocha');
+    mocha.setup('bdd');
+
+    var assert = require('assert'),
+        Loader = require('assets');
+
+    describe('Loader', function() {
+
+      this.timeout(5000);
+      
+      it('loads images', function(done) {
+        var loader = new Loader();
+
+        var images = [
+          'kittens/kitten_1.jpg', 'kittens/kitten_2.jpg',
+          'kittens/kitten_3.jpg', 'kittens/kitten_4.png'
+        ].map(loader.image, loader);
+
+        images.forEach(function(image) {
+          assert(image instanceof Image);
+        });
+
+        loader.load(function() {
+          images.forEach(function(image) {
+            assert(image.width > 0, 'image does not have size');
+          });
+
+          done();
+        });
+      });
+
+      it('loads audio', function(done) {
+        var loader = new Loader();
+
+        var audios = [
+          loader.audio('meows/meow_1', '.ogg .mp3'),
+          loader.audio('meows/meow_2', '.mp3 .ogg')
+        ];
+
+        audios.forEach(function(audio) {
+          assert(audio instanceof Audio);
+        });
+
+        loader.load(function() {
+          audios.forEach(function(audio) {
+            assert(audio.duration > 0, 'audio does not have duration');
+          });
+
+          done();
+        });
+      });
+   
+    });
+
+    mocha.run();
+  </script>
+</body>
+</html>
