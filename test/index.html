@@ -60,6 +60,13 @@
           done();
         });
       });
+
+      it('loads fonts', function(done) {
+        var loader = new Loader();
+
+        loader.font('Pixel', 'pixel.otf');
+        loader.load(done);
+      });
    
     });
 

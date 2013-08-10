@@ -1,6 +1,7 @@
 var Batch = require('batch'),
     loadImage = require('./loaders/image.js'),
-    loadAudio = require('./loaders/audio.js');
+    loadAudio = require('./loaders/audio.js'),
+    loadFont = require('./loaders/font.js');
 
 function Loader() {
   this.assets = {};
@@ -28,6 +29,14 @@ Loader.prototype = {
     this.assets[key] = audio.asset;
 
     return audio.asset;
+  },
+
+  font: function(name, url) {
+    if (this.assets[url]) return;
+
+    var load = loadFont(name, url);
+    this.queue.push(load);
+    this.assets[url] = true;
   },
 
   load: function(cb) {

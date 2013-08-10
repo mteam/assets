@@ -13,6 +13,7 @@
   "scripts": [
     "index.js",
     "loaders/image.js",
-    "loaders/audio.js"
+    "loaders/audio.js",
+    "loaders/font.js"
   ]
 }
