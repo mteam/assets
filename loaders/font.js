@@ -1,3 +1,5 @@
+var URL = window.URL || window.webkitURL;
+
 module.exports = function(name, url) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
