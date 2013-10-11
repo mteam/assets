@@ -33,28 +33,29 @@
 
         loader.load(function() {
           images.forEach(function(image) {
-            assert(image.width > 0, 'image does not have size');
+            assert(image.width > 0);
           });
 
           done();
         });
       });
 
-      it('loads audio', function(done) {
+      it('loads sounds', function(done) {
         var loader = new Loader();
 
-        var audios = [
-          loader.audio('meows/meow_1', '.ogg .mp3'),
-          loader.audio('meows/meow_2', '.mp3 .ogg')
+        var sounds = [
+          loader.sound('sounds/jump.wav'),
+          loader.sound('sounds/shoot.wav'),
+          loader.sound('sounds/hit.wav')
         ];
 
-        audios.forEach(function(audio) {
-          assert(audio instanceof Audio);
-        });
-
         loader.load(function() {
-          audios.forEach(function(audio) {
-            assert(audio.duration > 0, 'audio does not have duration');
+          sounds.forEach(function(sound) {
+            assert(sound != null);
+
+            var buffer = sound.buffer;
+            assert(buffer instanceof AudioBuffer);
+            assert(buffer.duration > 0);
           });
 
           done();

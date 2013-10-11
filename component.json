@@ -8,12 +8,12 @@
   },
   "development": {
     "visionmedia/mocha": "*",
-    "timoxley/assert": "*"
+    "component/assert": "*"
   },
   "scripts": [
     "index.js",
     "loaders/image.js",
-    "loaders/audio.js",
+    "loaders/sound.js",
     "loaders/font.js"
   ]
 }
