@@ -12,8 +12,11 @@
     require('mocha');
     mocha.setup('bdd');
 
-    var assert = require('assert'),
-        Loader = require('assets');
+    var assert = require('assert');
+    var Loader = require('assets');
+
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    var context = new AudioContext();
 
     describe('Loader', function() {
 
@@ -44,9 +47,9 @@
         var loader = new Loader();
 
         var sounds = [
-          loader.sound('sounds/jump.wav'),
-          loader.sound('sounds/shoot.wav'),
-          loader.sound('sounds/hit.wav')
+          loader.sound('sounds/jump.wav', context),
+          loader.sound('sounds/shoot.wav', context),
+          loader.sound('sounds/hit.wav', context)
         ];
 
         loader.load(function() {
