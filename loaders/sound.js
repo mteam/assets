@@ -1,13 +1,4 @@
-var AudioContext = window.AudioContext || window.webkitAudioContext;
-var supported = AudioContext != null && location.protocol != 'file:';
-
-if (supported) {
-  var context = new AudioContext();
-}
-
-module.exports = function(url) {
-  if (!supported) return null;
-
+module.exports = function(url, context) {
   var container = { buffer: null };
 
   function load(done) {

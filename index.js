@@ -20,9 +20,9 @@ Loader.prototype = {
     return image.asset;
   },
 
-  sound: function(url) {
+  sound: function(url, context) {
     if (this.assets[url] == null) {
-      var sound = loadSound(url);
+      var sound = loadSound(url, context);
 
       if (sound) {
         this.queue.push(sound.load);
